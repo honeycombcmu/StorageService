@@ -15,8 +15,6 @@ $ bee run
 ```
 
 ###### Open Web Broswer
-```
 visit localhost:8080
-```
 
 ###### Register and Login!
