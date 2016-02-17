@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"storage/models"
 	"github.com/astaxie/beego"
 	"log"
+	"storage/models"
 )
 
 type MainController struct {
@@ -16,13 +16,13 @@ func (c *MainController) Get() {
 	beego.SetStaticPath("/css", "css")
 	beego.SetStaticPath("/js", "js")
 
-	c.TplNames = "login.tpl"
+	c.TplName = "login.tpl"
 }
 
 func (c *MainController) Post() {
 	// Check validation of user/pass
 	//c.Ctx.WriteString("Your user name is: xxx")
-	c.TplNames = "login.tpl"
+	c.TplName = "login.tpl"
 	uname := c.GetString("email")
 	password := c.GetString("password")
 	unameKey := models.FormatUserLoginKey(uname)
@@ -35,5 +35,5 @@ func (c *MainController) Post() {
 		log.Println("password is wrong")
 		return // password is wrong, just return password and username don't match
 	}
-	c.Redirect("/seats?uname="+uname, 302)
+	c.Redirect("/dashboard?uname="+uname, 302)
 }

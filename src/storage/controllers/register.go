@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-    "storage/models"
 	"log"
+	"storage/models"
 )
 
 type UserController struct {
@@ -11,11 +11,11 @@ type UserController struct {
 }
 
 func (c *UserController) Get() {
-	c.TplNames = "register.tpl"
+	c.TplName = "register.tpl"
 }
 
 func (c *UserController) Post() {
-	c.TplNames = "register.tpl"
+	c.TplName = "register.tpl"
 	uname := c.GetString("email")
 	password := c.GetString("password")
 	rePassword := c.GetString("re-password")
@@ -29,11 +29,11 @@ func (c *UserController) Post() {
 		return // user exists
 	}
 
-    err = models.DB.Put(unameKey, models.Hash(password))
-    if err != nil {
-        log.Println("failed to put into database")
-        return // failure
-    }
+	err = models.DB.Put(unameKey, models.Hash(password))
+	if err != nil {
+		log.Println("failed to put into database")
+		return // failure
+	}
 
 	c.Redirect("/login?user_name="+uname, 302)
 }
