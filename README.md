@@ -21,11 +21,24 @@ visit localhost:8080
 
 
 
-###### API usage
+### API usage
 ####### upload
 ```
 import requests
 
 r = requests.post('http://localhost:8080/v1/file', files={'files': open('test2.py', 'rb')})
 print r.text
+```
+This will return:
+```
+{
+  "FileId": "file_1456303366412418000",
+  "FileName": "test2.py"
+}
+```
+
+
+####### download
+```
+get http://localhost:8080/v1/file/file_id
 ```
