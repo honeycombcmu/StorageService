@@ -18,3 +18,14 @@ $ bee run
 visit localhost:8080
 
 ###### Register and Login!
+
+
+
+###### API usage
+####### upload
+```
+import requests
+
+r = requests.post('http://localhost:8080/v1/file', files={'files': open('test2.py', 'rb')})
+print r.text
+```
