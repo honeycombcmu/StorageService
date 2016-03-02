@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"storageAPI/models"
 	"encoding/json"
+	"storageAPI/models"
 
 	"github.com/astaxie/beego"
 )
@@ -77,6 +77,29 @@ func (u *UserController) Put() {
 	u.ServeJSON()
 }
 
+// @Title Register
+// @Description Register the user
+// @Param	uid		path 	string	true		"The uid you want to register"
+// @Param	body		body 	models.User	true		"body for user content"
+// @Success 200 {object} models.User
+// @Failure 403 :uid is not int
+// @router /:uid [put]
+func (u *UserController) Register() {
+	uid := u.GetString(":uid")
+	if uid != "" {
+		var user models.User
+		json.Unmarshal(u.Ctx.Input.RequestBody, &user)
+		uu, err := models.putUser(uid, &user)
+		if err != nil {
+			u.Data["json"] = err.Error()
+		} else {
+			u.Data["json"] = uu
+		}
+		//ToDo, create an dir for this user in hdfs
+	}
+	u.ServeJSON()
+}
+
 // @Title delete
 // @Description delete the user
 // @Param	uid		path 	string	true		"The uid you want to delete"
@@ -116,4 +139,3 @@ func (u *UserController) Logout() {
 	u.Data["json"] = "logout success"
 	u.ServeJSON()
 }
-
