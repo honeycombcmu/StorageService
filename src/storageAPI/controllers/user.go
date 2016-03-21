@@ -5,6 +5,7 @@ import (
 	"storageAPI/models"
 
 	"github.com/astaxie/beego"
+	"os/exec"
 )
 
 // Operations about Users
@@ -89,13 +90,17 @@ func (u *UserController) Register() {
 	if uid != "" {
 		var user models.User
 		json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-		uu, err := models.putUser(uid, &user)
+		err := AddUserWithExstingUid(uid)
 		if err != nil {
 			u.Data["json"] = err.Error()
 		} else {
-			u.Data["json"] = uu
+			//ToDo, create an dir for this user in hdfs
+			cmd := exec.Command("hadoop", "fs", "-mkdir", uid)
+			err = cmd.Run()
+			if err != nil {
+				u.Data["json"] = err.Error()
+			}
 		}
-		//ToDo, create an dir for this user in hdfs
 	}
 	u.ServeJSON()
 }
